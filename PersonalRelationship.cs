@@ -7,15 +7,19 @@ namespace BbSisWrapper {
         private CEARelationShip bbRecord;
 
         public PersonalRelationship(CEARelationShip bbRecord) {
-            EEARelationTypes relationshipType = (EEARelationTypes)
-                Enum.Parse(typeof(EEARelationTypes),
-                           (string) bbRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RELATIONIDTYPE]);
-
-            if (relationshipType == EEARelationTypes.EARelationType_Person) {
+            if (Enums.Parse<EEARelationTypes>(
+                bbRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RELATIONIDTYPE]) ==
+                EEARelationTypes.EARelationType_Person) {
                 this.bbRecord = bbRecord;
             }
-            else {
+            else if (Enums.Parse<EEARelationTypes>(
+                     bbRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RELATIONIDTYPE]) ==
+                     EEARelationTypes.EARelationType_Organization) {
                 throw new Exception("bbRecord RELATIONIDTYPE must be Person, not Organization");
+            }
+            else {
+                throw new Exception("bbRecord RELATIONIDTYPE is blank, but it should be 1 " +
+                                    "(Person)");
             }
         }
 

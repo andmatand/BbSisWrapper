@@ -31,9 +31,15 @@ namespace BbSisWrapper {
         public IRelationship Add(EEARelationTypes relationshipType) {
             switch (relationshipType) {
                 case EEARelationTypes.EARelationType_Person:
+                    // Add a new BB relationship object
                     CEARelationShip newBBRecord = bbCollection.Add();
-                    var newContact = new PersonalRelationship(newBBRecord);
-                    return newContact;
+
+                    // Set the type of the BB relationship object
+                    newBBRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RELATIONIDTYPE] =
+                        relationshipType;
+
+                    // Return a wrapper object for the BB relationship
+                    return new PersonalRelationship(newBBRecord);
                 case EEARelationTypes.EARelationType_Organization:
                     throw new NotImplementedException();
             }

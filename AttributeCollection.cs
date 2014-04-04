@@ -24,5 +24,10 @@ namespace BbSisWrapper {
         public new void RemoveAt(int index) {
             Remove(Items[index]);
         }
+
+        public Attribute Add() {
+            Attribute newAttribute = new Attribute(bbCollection.Add());
+            return newAttribute;
+        }
     }
 }

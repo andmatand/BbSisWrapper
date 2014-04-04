@@ -4,17 +4,17 @@ using Blackbaud.PIA.FE7.BBAFNAPI7;
 namespace BbSisWrapper {
     public class ApiConnection {
         private Blackbaud.PIA.FE7.BBAFNAPI7.FE_API api;
-        private Blackbaud.PIA.EA7.BBEEAPI7.IBBSessionContext context;
+        private CodeTableServer codeTableServer;
 
         public ApiConnection(string serialNumber, int databaseNumber, string username, string password) {
             api = new FE_API();
 
-            if (!api.Init(serialNumber, username, password, databaseNumber, null, Blackbaud.PIA.FE7.BBAFNAPI7.AppMode.amServer)) {
+            if (!api.Init(serialNumber, username, password, databaseNumber,
+                          null, Blackbaud.PIA.FE7.BBAFNAPI7.AppMode.amServer)) {
                 throw new Exception("Could not connect to SIS: " + api.LastErrorMessage);
             }
             else {
                 api.SignOutOnTerminate = true;
-                context = (Blackbaud.PIA.EA7.BBEEAPI7.IBBSessionContext) api.SessionContext;
             }
         }
 
@@ -25,9 +25,19 @@ namespace BbSisWrapper {
             api = null;
         }
 
+        public CodeTableServer CodeTableServer {
+            get {
+                if (codeTableServer == null) {
+                    codeTableServer = new CodeTableServer((IBBSessionContext) Context);
+                }
+
+                return codeTableServer;
+            }
+        }
+
         public Blackbaud.PIA.EA7.BBEEAPI7.IBBSessionContext Context {
             get {
-                return context;
+                return (Blackbaud.PIA.EA7.BBEEAPI7.IBBSessionContext) api.SessionContext;
             }
         }
     }

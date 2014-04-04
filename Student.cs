@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using IBBAddressHeaders = Blackbaud.PIA.FE7.AFNInterfaces.IBBAddressHeaders;
+using IBBAttributesAPI = Blackbaud.PIA.FE7.AFNInterfaces.IBBAttributesAPI;
 using FILTERTYPE = Blackbaud.PIA.EA7.BBEEAPI7.eDataFilterCustomTypes;
 using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEASTUDENTSFields;
 
@@ -10,6 +11,7 @@ namespace BbSisWrapper {
         private cEAStudent bbRecord;
         protected IBBSessionContext context;
         private AddressCollection addresses = null;
+        private AttributeCollection attributes = null;
         private StudentDegreeCollection degrees = null;
         private EnrollmentCollection enrollments;
         private List<Note> notes = null;
@@ -32,6 +34,16 @@ namespace BbSisWrapper {
             }
         }
 
+        public AttributeCollection Attributes {
+            get {
+                if (attributes == null) {
+                    attributes = new AttributeCollection((IBBAttributesAPI) bbRecord.Attributes);
+                }
+
+                return attributes;
+            }
+        }
+
         public DateTime DateAdded {
             get {
                 return DateTime.Parse((string) bbRecord.Fields[FIELD.EASTUDENTS_fld_DATEADDED]);
@@ -48,6 +60,12 @@ namespace BbSisWrapper {
             }
         }
 
+        public int Ea7RecordsId {
+            get {
+                return int.Parse((string) bbRecord.Fields[FIELD.EASTUDENTS_fld_EA7RECORDSID]);
+            }
+        }
+
         public EnrollmentCollection Enrollments {
             get {
                 if (enrollments == null) {
@@ -60,9 +78,7 @@ namespace BbSisWrapper {
 
         public int Ea7StudentsId {
             get {
-                int id;
-                int.TryParse((string) bbRecord.Fields[FIELD.EASTUDENTS_fld_EA7STUDENTSID], out id);
-                return id;
+                return int.Parse((string) bbRecord.Fields[FIELD.EASTUDENTS_fld_EA7STUDENTSID]);
             }
         }
 
@@ -255,6 +271,12 @@ namespace BbSisWrapper {
             if (addresses != null) {
                 // Clear our list of addresses
                 addresses = null;
+            }
+
+            // If we have attributes loaded
+            if (attributes != null) {
+                // Clear our list of addresses
+                attributes = null;
             }
 
             // If we have notes loaded

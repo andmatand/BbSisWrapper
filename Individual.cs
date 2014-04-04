@@ -24,14 +24,14 @@ namespace BbSisWrapper {
             }
         }
 
-        public int EA7IndividualsID {
+        public int Ea7IndividualsId {
             get {
                 return int.Parse((string)
                     bbRecord.Fields[FIELD.EAINDIVIDUALS_fld_EA7INDIVIDUALSID]);
             }
         }
 
-        public int EA7RecordsId {
+        public int Ea7RecordsId {
             get {
                 return int.Parse((string) bbRecord.Fields[FIELD.EAINDIVIDUALS_fld_EA7RECORDSID]);
             }
@@ -123,8 +123,8 @@ namespace BbSisWrapper {
         }
 
         public void Reload() {
-            // Save our EA7IndividualsID
-            int ea7IndividualsID = EA7IndividualsID;
+            // Save our Ea7IndividualsId
+            int ea7IndividualsID = Ea7IndividualsId;
 
             // Close the SIS record
             Close();
@@ -146,7 +146,7 @@ namespace BbSisWrapper {
             return record;
         }
 
-        public static Individual LoadByEA7IndividualsId(int ea7IndividualsID,
+        public static Individual LoadByEa7IndividualsId(int ea7IndividualsID,
                                                         IBBSessionContext context) {
             var bbRecord = LoadBbRecord(ea7IndividualsID, context);
             return new Individual(bbRecord, context);
