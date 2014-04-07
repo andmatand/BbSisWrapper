@@ -66,10 +66,6 @@ namespace BbSisWrapper {
             }
         }
 
-        public bool Contains(string contactType) {
-            return Items.FirstOrDefault(x => x.Type == contactType) != null;
-        }
-
         public void SetOrAdd(string contactType, string contactNumber, bool canBeShared = true) {
             Address.Contact targetContact = null;
 
