@@ -1,6 +1,6 @@
-﻿using Blackbaud.PIA.FE7.BBAFNAPI7;
-using System;
+﻿using System;
 using System.Collections.ObjectModel;
+using Blackbaud.PIA.FE7.BBAFNAPI7;
 
 namespace BbSisWrapper {
     public class CodeTableEntryCollection : Collection<CodeTableEntry> {
@@ -15,11 +15,11 @@ namespace BbSisWrapper {
             this.context = context;
 
             int entryCount = server.GetTableEntryCount((ECodeTableNumbers) codeTableId);
-            dynamic[][] tableData = (dynamic[][])
+            dynamic[,] tableData = (dynamic[,])
                 server.CodeTableGetDataArray((ECodeTableNumbers) codeTableId, false, false);
 
             for (int i = 0; i < entryCount; i++) {
-                int entryId = (int) tableData[0][i];
+                int entryId = (int) tableData[0, i];
                 Items.Add(CodeTableEntry.LoadByTableEntriesId(entryId, server, codeTablesId));
             }
 
@@ -49,18 +49,31 @@ namespace BbSisWrapper {
             //}
         }
 
-        //public bool HasShortDescriptions {
-        //    get {
-        //        return server.TableHasShortDescription((ECodeTableNumbers) codeTableId);
-        //    }
-        //}
-
         public CodeTableEntry Add(string description, bool isActive = true) {
+            if (HasShortDescriptions) {
+                throw new Exception("This CodeTable does not have short descriptions.  Use the " +
+                                    "other Add() method.");
+            }
+
             CodeTableEntry newItem = AddEntry(null, description, isActive);
             Items.Add(newItem);
 
             return newItem;
         }
+
+        public CodeTableEntry
+        Add(string longDescription, string shortDescription, bool isActive = true) {
+            if (!HasShortDescriptions) {
+                throw new Exception("This CodeTable does not have short descriptions.  Use the " +
+                                    "other Add() method.");
+            }
+
+            CodeTableEntry newItem = AddEntry(shortDescription, longDescription, isActive);
+            Items.Add(newItem);
+
+            return newItem;
+        }
+
 
         protected CodeTableEntry
         AddEntry(string shortDescription, string description, bool isActive) {
@@ -83,6 +96,12 @@ namespace BbSisWrapper {
             tableLookupHandler = null;
 
             return newEntry;
+        }
+
+        private bool HasShortDescriptions {
+            get {
+                return server.TableHasShortDescription((ECodeTableNumbers) codeTableId);
+            }
         }
     }
 }

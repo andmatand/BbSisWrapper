@@ -26,9 +26,16 @@ namespace BbSisWrapper {
 
         public int CodeTablesId {
             get {
-                return (int) bbObject.Fields[ECodeTableFields.ctfCODETABLEID];
+                return int.Parse((string) bbObject.Fields[ECodeTableFields.ctfCODETABLEID]);
             }
         }
+
+        public bool HasShortDescriptions {
+            get {
+                return codeTableServer.TableHasShortDescription((ECodeTableNumbers) CodeTablesId);
+            }
+        }
+
 
         public static CodeTable LoadByCodeTablesId(int codeTablesId,
                                                    CodeTableServer codeTableServer,
@@ -47,7 +54,7 @@ namespace BbSisWrapper {
         }
 
         public static CodeTable
-        LoadByName(string name, CodeTableServer codeTableServer, IBBSessionContext context) {
+        LoadByName(string name, CodeTableServer codeTableServer) {
             // Find the ID of the code table that has the given name
             int id = -1;
             foreach (CCodeTable bbCodeTable in codeTableServer.BbObject.CodeTables) {
@@ -60,7 +67,7 @@ namespace BbSisWrapper {
 
             // If the name matched a code table
             if (id != -1) {
-                return LoadByCodeTablesId(id, codeTableServer, context);
+                return LoadByCodeTablesId(id, codeTableServer, codeTableServer.Context);
             }
             else {
                 return null;

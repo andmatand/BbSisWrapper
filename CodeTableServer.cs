@@ -1,13 +1,15 @@
 ﻿using Blackbaud.PIA.FE7.BBAFNAPI7;
-using System;
 
 namespace BbSisWrapper {
     public class CodeTableServer {
         private CCodeTablesServer bbObject;
+        private IBBSessionContext context;
 
         internal CodeTableServer(IBBSessionContext context) {
+            this.context = context;
+
             // Create and initialize a BB code table server object
-            CCodeTablesServer bbObject = new CCodeTablesServer();
+            bbObject = new CCodeTablesServer();
             bbObject.Init(context);
         }
 
@@ -18,6 +20,12 @@ namespace BbSisWrapper {
         public CCodeTablesServer BbObject {
             get {
                 return bbObject;
+            }
+        }
+
+        internal IBBSessionContext Context {
+            get {
+                return context;
             }
         }
 

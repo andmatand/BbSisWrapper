@@ -19,10 +19,14 @@ namespace BbSisWrapper {
         }
 
         public void Close() {
-            if (api == null) return;
+            if (api != null) {
+                // Close the codeTableServer
+                codeTableServer.Close();
 
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(api);
-            api = null;
+                // Release the API COM Object
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(api);
+                api = null;
+            }
         }
 
         public CodeTableServer CodeTableServer {

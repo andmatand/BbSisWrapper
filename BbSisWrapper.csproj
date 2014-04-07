@@ -49,7 +49,6 @@
     <Compile Include="CodeTable.cs" />
     <Compile Include="CodeTableEntry.cs" />
     <Compile Include="CodeTableEntryCollection.cs" />
-    <Compile Include="CodeTableEntryCollectionShort.cs" />
     <Compile Include="CodeTableEntryShort.cs" />
     <Compile Include="CodeTableServer.cs" />
     <Compile Include="Contact.cs" />
@@ -102,7 +101,7 @@
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
       <Isolated>False</Isolated>
-      <EmbedInteropTypes>True</EmbedInteropTypes>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
     </COMReference>
     <COMReference Include="IBBShellInterfaces">
       <Guid>{D9A57064-1C62-11D4-BED6-00E0290ECEF9}</Guid>
