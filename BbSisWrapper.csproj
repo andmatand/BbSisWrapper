@@ -30,6 +30,21 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Blackbaud.PIA.EA7.BBEEAPI7, Version=7.99.9.9, Culture=neutral, PublicKeyToken=d32fc0c6276b37c8">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>C:\Program Files (x86)\Blackbaud\The Financial Edge\PIA\Blackbaud.PIA.EA7.BBEEAPI7.dll</HintPath>
+    </Reference>
+    <Reference Include="Blackbaud.PIA.FE7.AFNInterfaces, Version=7.99.9.9, Culture=neutral, PublicKeyToken=d32fc0c6276b37c8">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>C:\Program Files (x86)\Blackbaud\The Financial Edge\PIA\Blackbaud.PIA.FE7.AFNInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Blackbaud.PIA.FE7.BBAFNAPI7, Version=7.99.9.9, Culture=neutral, PublicKeyToken=d32fc0c6276b37c8">
+      <SpecificVersion>False</SpecificVersion>
+      <EmbedInteropTypes>False</EmbedInteropTypes>
+      <HintPath>C:\Program Files (x86)\Blackbaud\The Financial Edge\PIA\Blackbaud.PIA.FE7.BBAFNAPI7.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -76,63 +91,9 @@
     <Compile Include="TranslationTable.cs" />
   </ItemGroup>
   <ItemGroup>
-    <COMReference Include="AFNInterfaces">
-      <Guid>{5D1610C1-CF85-11D3-90B4-00C04F37AA48}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="BBAFNAPI7">
-      <Guid>{C46246F1-F397-11D3-906A-00C04F44F100}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="BBEEAPI7">
-      <Guid>{CF90E15E-6352-4DAB-BE41-4F4173FB6680}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="IBBShellInterfaces">
-      <Guid>{D9A57064-1C62-11D4-BED6-00E0290ECEF9}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
     <COMReference Include="IObjectSafetyTLB">
       <Guid>{C67830E0-D11D-11CF-BD80-00AA00575603}</Guid>
       <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="MSDATASRC">
-      <Guid>{7C0FFAB0-CD84-11D0-949A-00A0C91110ED}</Guid>
-      <VersionMajor>1</VersionMajor>
-      <VersionMinor>0</VersionMinor>
-      <Lcid>0</Lcid>
-      <WrapperTool>primary</WrapperTool>
-      <Isolated>False</Isolated>
-      <EmbedInteropTypes>False</EmbedInteropTypes>
-    </COMReference>
-    <COMReference Include="MSHTML">
-      <Guid>{3050F1C5-98B5-11CF-BB82-00AA00BDCE0B}</Guid>
-      <VersionMajor>4</VersionMajor>
       <VersionMinor>0</VersionMinor>
       <Lcid>0</Lcid>
       <WrapperTool>primary</WrapperTool>
