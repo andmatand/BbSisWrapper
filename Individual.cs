@@ -52,6 +52,19 @@ namespace BbSisWrapper {
             }
         }
 
+        public PersonGender Gender {
+            get {
+                switch ((string) bbRecord.Fields[FIELD.EAINDIVIDUALS_fld_GENDER]) {
+                    case "1":
+                        return PersonGender.Male;
+                    case "2":
+                        return PersonGender.Female;
+                    default:
+                        return PersonGender.Null;
+                }
+            }
+        }
+
         public string Nickname {
             get {
                 return (string) bbRecord.Fields[FIELD.EAINDIVIDUALS_fld_NICKNAME];

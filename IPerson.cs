@@ -8,6 +8,7 @@ namespace BbSisWrapper {
         string Nickname { get; }
         string MiddleName { get; }
         string LastName { get; }
+        PersonGender Gender { get; }
         string OnlineUserId { get; set; }
         string OnlinePassword { get; set; }
         AddressCollection Addresses { get; }
