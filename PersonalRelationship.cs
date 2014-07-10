@@ -38,6 +38,24 @@ namespace BbSisWrapper {
             }
         }
 
+        public string ReciprocalCode {
+            get {
+                return (string) bbRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RECIPROCALCODE];
+            }
+            set {
+                bbRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RECIPROCALCODE] = value;
+            }
+        }
+
+        public string RelationshipCode {
+            get {
+                return (string) bbRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RELATIONSHIPCODE];
+            }
+            set {
+                bbRecord.Fields[FIELDS.EARELATIONSHIPS_fld_RELATIONSHIPCODE] = value;
+            }
+        }
+
         public bool ViewNetClassroom {
             get {
                 return (bbTF) Enum.Parse(
