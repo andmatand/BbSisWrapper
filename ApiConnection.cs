@@ -20,8 +20,10 @@ namespace BbSisWrapper {
 
         public void Close() {
             if (api != null) {
-                // Close the codeTableServer
-                codeTableServer.Close();
+                if (codeTableServer != null) {
+                    // Close the codeTableServer
+                    codeTableServer.Close();
+                }
 
                 // Release the API COM Object
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(api);
