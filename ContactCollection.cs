@@ -15,13 +15,13 @@ namespace BbSisWrapper {
             if (bbPhoneHeaders != null) {
                 foreach (IBBPhoneHeader bbPhoneHeader in bbPhoneHeaders) {
                     var contact = new Address.Contact(bbPhoneHeader);
-                    Add(contact);
+                    Items.Add(contact);
                 }
             }
             else {
                 foreach (IBBPhone bbPhone in bbPhones) {
                     var contact = new Address.Contact(bbPhone);
-                    Add(contact);
+                    Items.Add(contact);
                 }
             }
         }
@@ -44,19 +44,21 @@ namespace BbSisWrapper {
         }
 
         public void Remove(string contactType) {
-            Items.Remove(Items.Single(x => x.Type == contactType));
+            Remove(Items.Single(x => x.Type == contactType));
         }
 
         public Address.Contact Add() {
             if (bbPhoneHeaders != null) {
                 IBBPhoneHeader newBBRecord = bbPhoneHeaders.Add();
                 var newContact = new Address.Contact(newBBRecord);
+                Items.Add(newContact);
                 return newContact;
             }
             else {
-                IBBPhone newBBRecord = bbPhones.Add();
-                var newContact = new Address.Contact(newBBRecord);
-                return newContact;
+              IBBPhone newBBRecord = bbPhones.Add();
+              var newContact = new Address.Contact(newBBRecord);
+              Items.Add(newContact);
+              return newContact;
             }
         }
 
