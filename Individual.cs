@@ -55,9 +55,9 @@ namespace BbSisWrapper {
         public PersonGender Gender {
             get {
                 switch ((string) bbRecord.Fields[FIELD.EAINDIVIDUALS_fld_GENDER]) {
-                    case "1":
+                    case "Male":
                         return PersonGender.Male;
-                    case "2":
+                    case "Female":
                         return PersonGender.Female;
                     default:
                         return PersonGender.Null;
