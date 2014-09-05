@@ -11,6 +11,10 @@ namespace BbSisWrapper {
                 this.sisObject = sisObject;
             }
 
+            public cEAPromotionSummary BbSisObject {
+                get { return sisObject; }
+            }
+
             public int SchoolsId {
                 get {
                     return int.Parse((string)

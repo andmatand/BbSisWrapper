@@ -1,6 +1,7 @@
 ﻿using Blackbaud.PIA.EA7.BBEEAPI7;
 using System;
 using System.Collections.Generic;
+using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEASTUDENTCOURSESFields;
 
 namespace BbSisWrapper {
     public partial class Student {
@@ -20,9 +21,14 @@ namespace BbSisWrapper {
 
             public int AcademicYearId {
                 get {
-                    int id;
-                    int.TryParse((string) sisObject.Fields[EEASTUDENTCOURSESFields.EASTUDENTCOURSES_fld_EA7ACADEMICYEARSID], out id);
-                    return id;
+                    return int.Parse((string)
+                        sisObject.Fields[FIELD.EASTUDENTCOURSES_fld_EA7ACADEMICYEARSID]);
+                }
+            }
+
+            public cEAStudentCourse BbSisObject {
+                get {
+                    return sisObject;
                 }
             }
 

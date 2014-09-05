@@ -7,7 +7,7 @@ using FILTERTYPE = Blackbaud.PIA.EA7.BBEEAPI7.eDataFilterCustomTypes;
 using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEASTUDENTSFields;
 
 namespace BbSisWrapper {
-    public partial class Student : IPerson {
+    public partial class Student : IPerson, IDisposable {
         private cEAStudent bbRecord;
         protected IBBSessionContext context;
         private AddressCollection addresses = null;
@@ -15,8 +15,9 @@ namespace BbSisWrapper {
         private StudentDegreeCollection degrees = null;
         private EnrollmentCollection enrollments;
         private List<Note> notes = null;
-        private List<ProgressionEntry> progressionEntries = null;
-        private List<StudentCourse> studentCourses = null;
+        private ProgressionEntryCollection progressionEntries = null;
+        private StudentCourseCollection studentCourses = null;
+        private List<StudentSession> studentSessions = null;
         private RelationshipCollection relationships = null;
 
         public Student(cEAStudent bbRecord, IBBSessionContext context) {
@@ -176,7 +177,7 @@ namespace BbSisWrapper {
             }
         }
 
-        public List<ProgressionEntry> ProgressionEntries {
+        public ProgressionEntryCollection ProgressionEntries {
             get {
                 // Make sure our progression entries are loaded
                 LoadProgressionEntries();
@@ -195,20 +196,55 @@ namespace BbSisWrapper {
             }
         }
 
-        public List<StudentCourse> StudentCourses {
+        public string SSN {
             get {
-                // If we haven't loaded our progression entries yet
-                if (studentCourses == null) {
-                    studentCourses = new List<StudentCourse>();
+                return (string) bbRecord.Fields[FIELD.EASTUDENTS_fld_SSN];
+            }
+            set {
+                bbRecord.Fields[FIELD.EASTUDENTS_fld_SSN] = value;
+            }
+        }
 
-                    // Load each of our studentcourses into a
-                    // StudentCourse object
-                    foreach (cEAStudentCourse sc in bbRecord.StudentCourses) {
-                        studentCourses.Add(new StudentCourse(sc, context));
-                    }
+        public StudentCourseCollection StudentCourses {
+            get {
+                // If we haven't loaded our studentcourses yet
+                if (studentCourses == null) {
+                    cEAStudentCourses bbCollection = new cEAStudentCourses();
+                    bbCollection.Init(context, (IBBDataObject) bbRecord);
+                    bbCollection.FilterObject.FilterProperties[
+                        EEASTUDENTCOURSESFilterProperties.EASTUDENTCOURSES_FilterProp_EA7StudentsID]
+                        = Ea7StudentsId;
+
+                    studentCourses = new StudentCourseCollection(bbCollection, context);
                 }
 
                 return studentCourses;
+            }
+        }
+
+        public List<StudentSession> StudentSessions {
+            get {
+                // If we haven't loaded our student sessions yet
+                if (studentSessions == null) {
+                    studentSessions = new List<StudentSession>();
+
+                    cEAStudentSessions bbObjects = new cEAStudentSessions();
+                    bbObjects.Init(context);
+                    bbObjects.FilterObject.FilterProperties[
+                        EEASTUDENTSESSIONSFilterProperties.EASTUDENTSESSIONS_FilterProp_STUDENTID]
+                        = Ea7StudentsId;
+
+                    // Load each of our student sessions into a StudentSession object
+                    foreach (CEAStudentSession ss in bbObjects) {
+                        studentSessions.Add(new StudentSession(ss));
+                    }
+
+                    bbObjects.CloseDown();
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(bbObjects);
+                    bbObjects = null;
+                }
+
+                return studentSessions;
             }
         }
 
@@ -242,12 +278,7 @@ namespace BbSisWrapper {
         private void LoadProgressionEntries() {
             // If we haven't loaded our progression entries yet
             if (progressionEntries == null) {
-                progressionEntries = new List<ProgressionEntry>();
-
-                // Load each of our progression entries into a ProgressionEntry object
-                foreach (cEAPromotionSummary prog in SisObject.PromotionSummaries) {
-                    progressionEntries.Add(new ProgressionEntry(prog));
-                }
+                progressionEntries = new ProgressionEntryCollection(bbRecord.PromotionSummaries);
             }
         }
 
@@ -416,6 +447,10 @@ namespace BbSisWrapper {
             else {
                 return null;
             }
+        }
+    
+        public void Dispose() {
+            Close();
         }
     }
 }

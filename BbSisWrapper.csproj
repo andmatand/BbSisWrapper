@@ -74,6 +74,8 @@
     <Compile Include="EnrollmentCollection.cs" />
     <Compile Include="Enums.cs" />
     <Compile Include="FacultyStaffRecord.cs" />
+    <Compile Include="Gpa.cs" />
+    <Compile Include="GpaCollection.cs" />
     <Compile Include="Grade.cs" />
     <Compile Include="Individual.cs" />
     <Compile Include="IPerson.cs" />
@@ -82,12 +84,15 @@
     <Compile Include="Note.cs" />
     <Compile Include="PersonalRelationship.cs" />
     <Compile Include="ProgressionEntry.cs" />
+    <Compile Include="ProgressionEntryCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RelationshipCollection.cs" />
     <Compile Include="Student.cs" />
     <Compile Include="StudentCourse.cs" />
+    <Compile Include="StudentCourseCollection.cs" />
     <Compile Include="StudentDegree.cs" />
     <Compile Include="StudentDegreeCollection.cs" />
+    <Compile Include="StudentSession.cs" />
     <Compile Include="TranslationTable.cs" />
   </ItemGroup>
   <ItemGroup>

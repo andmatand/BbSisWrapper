@@ -1,44 +1,47 @@
-﻿using Blackbaud.PIA.EA7.BBEEAPI7;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System;
+using Blackbaud.PIA.EA7.BBEEAPI7;
 using FIELDS = Blackbaud.PIA.EA7.BBEEAPI7.EEAACADEMICYEARSFields;
 
 namespace BbSisWrapper {
-    public class AcademicYear {
-        private CEAAcademicYear sisObject;
+    public class AcademicYear : IDisposable {
+        private CEAAcademicYear bbObject;
 
-        public AcademicYear(CEAAcademicYear sisObject) {
-            this.sisObject = sisObject;
-        }
-
-        ~AcademicYear() {
-            Close();
+        public AcademicYear(CEAAcademicYear bbSisObject) {
+            this.bbObject = bbSisObject;
         }
 
         public void Close() {
-            // Release our handle on the SIS record
-            this.sisObject.CloseDown();
+            if (bbObject != null) {
+                // Release our handle on the SIS record
+                bbObject.CloseDown();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(bbObject);
+                bbObject = null;
+            }
         }
 
         public CEAAcademicYear SisObject {
             get {
-                return this.sisObject;
+                return this.bbObject;
+            }
+        }
+
+        public string Description {
+            get {
+                return (string) bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_DESCRIPTION];
             }
         }
 
         public int Ea7AcademicYearsId {
             get {
                 int id;
-                int.TryParse((string) sisObject.Fields[FIELDS.EAACADEMICYEARS_fld_EA7ACADEMICYEARSID], out id);
+                int.TryParse((string) bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_EA7ACADEMICYEARSID], out id);
                 return id;
             }
         }
 
         public DateTime StartDate {
             get {
-                return DateTime.Parse((string) sisObject.Fields[FIELDS.EAACADEMICYEARS_fld_STARTDATE]);
+                return DateTime.Parse((string) bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_STARTDATE]);
             }
         }
 
@@ -79,6 +82,10 @@ namespace BbSisWrapper {
             else {
                 return null;
             }
+        }
+
+        public void Dispose() {
+            Close();
         }
     }
 }
