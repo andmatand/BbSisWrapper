@@ -5,6 +5,7 @@ namespace BbSisWrapper {
     public class ApiConnection {
         private Blackbaud.PIA.FE7.BBAFNAPI7.FE_API api;
         private CodeTableServer codeTableServer;
+        private Context context;
 
         public ApiConnection(string serialNumber, int databaseNumber, string username, string password) {
             api = new FE_API();
@@ -15,6 +16,7 @@ namespace BbSisWrapper {
             }
             else {
                 api.SignOutOnTerminate = true;
+                context = new Context(api.SessionContext);
             }
         }
 
@@ -41,7 +43,13 @@ namespace BbSisWrapper {
             }
         }
 
-        public Blackbaud.PIA.EA7.BBEEAPI7.IBBSessionContext Context {
+        public Context Context {
+            get {
+                return context;
+            }
+        }
+
+        public Blackbaud.PIA.EA7.BBEEAPI7.IBBSessionContext BbSisContext {
             get {
                 return (Blackbaud.PIA.EA7.BBEEAPI7.IBBSessionContext) api.SessionContext;
             }

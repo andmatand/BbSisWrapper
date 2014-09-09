@@ -1,6 +1,7 @@
-﻿using Blackbaud.PIA.FE7.AFNInterfaces;
+﻿using System;
+using System.Collections.Generic;
+using Blackbaud.PIA.FE7.AFNInterfaces;
 using PYEmployeesData7;
-using System;
 
 namespace BbSisWrapper {
     public class Employee : IPerson {
@@ -32,6 +33,13 @@ namespace BbSisWrapper {
         public string IdNumber {
             get {
                 return (string) bbRecord.Fields[EPYEMPLOYEESFields.PYEMPLOYEES_fld_USERDEFINEDID];
+            }
+        }
+
+        public int Py7EmployeesId {
+            get {
+                return int.Parse((string)
+                    bbRecord.Fields[EPYEMPLOYEESFields.PYEMPLOYEES_fld_PY7EMPLOYEESID]);
             }
         }
 
@@ -97,6 +105,12 @@ namespace BbSisWrapper {
             }
         }
 
+        public string SSN {
+            get {
+                return (string) bbRecord.Fields[EPYEMPLOYEESFields.PYEMPLOYEES_fld_EMPLOYEESSN];
+            }
+        }
+
         public AddressCollection Addresses {
             get {
                 if (addresses == null) {
@@ -105,6 +119,34 @@ namespace BbSisWrapper {
 
                 return addresses;
             }
+        }
+
+        public static IEnumerable<Employee>
+        LoadCollection(Context context, string sqlFrom = null, string sqlWhere = null) {
+            return LoadCollection((IBBSessionContext) context.BbSisContext, sqlFrom, sqlWhere);
+        }
+
+        internal static IEnumerable<Employee>
+        LoadCollection(IBBSessionContext context, string sqlFrom = null, string sqlWhere = null) {
+            CPYEmployees bbCollection = new CPYEmployees();
+            bbCollection.Init(context);
+
+            if (sqlFrom != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    eDataFilterCustomTypes.CUSTOMFILTERTYPE_CUSTOMFROM] = sqlFrom;
+            }
+            if (sqlWhere != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    eDataFilterCustomTypes.CUSTOMFILTERTYPE_CUSTOMWHERE] = sqlWhere;
+            }
+
+            foreach (CPYEmployee bbObject in bbCollection) {
+                yield return new Employee(bbObject);
+            }
+
+            bbCollection.CloseDown();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(bbCollection);
+            bbCollection = null;
         }
 
         public void Close() {

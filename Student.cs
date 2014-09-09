@@ -1,5 +1,6 @@
 ﻿using Blackbaud.PIA.EA7.BBEEAPI7;
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using IBBAddressHeaders = Blackbaud.PIA.FE7.AFNInterfaces.IBBAddressHeaders;
 using IBBAttributesAPI = Blackbaud.PIA.FE7.AFNInterfaces.IBBAttributesAPI;
@@ -411,6 +412,34 @@ namespace BbSisWrapper {
             else {
                 return null;
             }
+        }
+
+        public static IEnumerable<Student>
+        LoadCollection(Context context, string sqlFrom = null, string sqlWhere = null) {
+            return LoadCollection(context.BbSisContext, sqlFrom, sqlWhere);
+        }
+
+        internal static IEnumerable<Student>
+        LoadCollection(IBBSessionContext context, string sqlFrom = null, string sqlWhere = null) {
+            cEAStudents bbCollection = new cEAStudents();
+            bbCollection.Init(context, true);
+
+            if (sqlFrom != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMFROM] = sqlFrom;
+            }
+            if (sqlWhere != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMWHERE] = sqlWhere;
+            }
+
+            foreach (cEAStudent bbObject in bbCollection) {
+                yield return new Student(bbObject, context);
+            }
+
+            bbCollection.CloseDown();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(bbCollection);
+            bbCollection = null;
         }
 
         public static Student
