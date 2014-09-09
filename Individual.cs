@@ -1,5 +1,6 @@
 ﻿using Blackbaud.PIA.EA7.BBEEAPI7;
 using System;
+using System.Collections.Generic;
 using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEAINDIVIDUALSFields;
 using IBBAddressHeaders = Blackbaud.PIA.FE7.AFNInterfaces.IBBAddressHeaders;
 
@@ -164,6 +165,49 @@ namespace BbSisWrapper {
             var bbRecord = LoadBbRecord(ea7IndividualsID, context);
             return new Individual(bbRecord, context);
         }
+
+        public static IEnumerable<Individual>
+        LoadCollection(
+            Context context,
+            string sqlFrom = null,
+            string sqlWhere = null,
+            string sqlOrderBy = null)
+        {
+            return LoadCollection(context.BbSisContext, sqlFrom, sqlWhere, sqlOrderBy);
+        }
+
+        internal static IEnumerable<Individual>
+        LoadCollection(
+            IBBSessionContext context,
+            string sqlFrom = null,
+            string sqlWhere = null,
+            string sqlOrderBy = null)
+        {
+            CEAIndividualRecords bbCollection = new CEAIndividualRecords();
+            bbCollection.Init(context, true);
+
+            if (sqlFrom != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    eDataFilterCustomTypes.CUSTOMFILTERTYPE_CUSTOMFROM] = sqlFrom;
+            }
+            if (sqlWhere != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    eDataFilterCustomTypes.CUSTOMFILTERTYPE_CUSTOMWHERE] = sqlWhere;
+            }
+            if (sqlOrderBy != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    eDataFilterCustomTypes.CUSTOMFILTERTYPE_CUSTOMORDERBY] = sqlOrderBy;
+            }
+
+            foreach (CEAIndividualRecord bbObject in bbCollection) {
+                yield return new Individual(bbObject, context);
+            }
+
+            bbCollection.CloseDown();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(bbCollection);
+            bbCollection = null;
+        }
+
 
         public static Individual Create(IBBSessionContext context) {
             CEAIndividualRecord bbRecord = new CEAIndividualRecord();

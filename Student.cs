@@ -415,12 +415,22 @@ namespace BbSisWrapper {
         }
 
         public static IEnumerable<Student>
-        LoadCollection(Context context, string sqlFrom = null, string sqlWhere = null) {
-            return LoadCollection(context.BbSisContext, sqlFrom, sqlWhere);
+        LoadCollection(
+            Context context,
+            string sqlFrom = null,
+            string sqlWhere = null,
+            string sqlOrderBy = null)
+        {
+            return LoadCollection(context.BbSisContext, sqlFrom, sqlWhere, sqlOrderBy);
         }
 
         internal static IEnumerable<Student>
-        LoadCollection(IBBSessionContext context, string sqlFrom = null, string sqlWhere = null) {
+        LoadCollection(
+            IBBSessionContext context,
+            string sqlFrom = null,
+            string sqlWhere = null,
+            string sqlOrderBy = null)
+        {
             cEAStudents bbCollection = new cEAStudents();
             bbCollection.Init(context, true);
 
@@ -431,6 +441,10 @@ namespace BbSisWrapper {
             if (sqlWhere != null) {
                 bbCollection.FilterObject.CustomFilterProperty[
                     FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMWHERE] = sqlWhere;
+            }
+            if (sqlOrderBy != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMORDERBY] = sqlOrderBy;
             }
 
             foreach (cEAStudent bbObject in bbCollection) {

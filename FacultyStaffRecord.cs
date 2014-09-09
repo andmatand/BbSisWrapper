@@ -1,5 +1,6 @@
 ﻿using Blackbaud.PIA.EA7.BBEEAPI7;
 using System;
+using System.Collections.Generic;
 using IBBAddressHeaders = Blackbaud.PIA.FE7.AFNInterfaces.IBBAddressHeaders;
 using FILTERTYPE = Blackbaud.PIA.EA7.BBEEAPI7.eDataFilterCustomTypes;
 using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEAFACULTYFIELDS;
@@ -210,6 +211,48 @@ namespace BbSisWrapper {
             else {
                 return null;
             }
+        }
+
+        public static IEnumerable<FacultyStaffRecord>
+        LoadCollection(
+            Context context,
+            string sqlFrom = null,
+            string sqlWhere = null,
+            string sqlOrderBy = null)
+        {
+            return LoadCollection(context.BbSisContext, sqlFrom, sqlWhere, sqlOrderBy);
+        }
+
+        internal static IEnumerable<FacultyStaffRecord>
+        LoadCollection(
+            IBBSessionContext context,
+            string sqlFrom = null,
+            string sqlWhere = null,
+            string sqlOrderBy = null)
+        {
+            CEAFacultyRecords bbCollection = new CEAFacultyRecords();
+            bbCollection.Init(context, true);
+
+            if (sqlFrom != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMFROM] = sqlFrom;
+            }
+            if (sqlWhere != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMWHERE] = sqlWhere;
+            }
+            if (sqlOrderBy != null) {
+                bbCollection.FilterObject.CustomFilterProperty[
+                    FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMORDERBY] = sqlOrderBy;
+            }
+
+            foreach (CEAFacultyRecord bbObject in bbCollection) {
+                yield return new FacultyStaffRecord(bbObject);
+            }
+
+            bbCollection.CloseDown();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(bbCollection);
+            bbCollection = null;
         }
     }
 }
