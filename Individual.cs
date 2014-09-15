@@ -184,7 +184,7 @@ namespace BbSisWrapper {
             string sqlOrderBy = null)
         {
             CEAIndividualRecords bbCollection = new CEAIndividualRecords();
-            bbCollection.Init(context, true);
+            bbCollection.Init(context);
 
             if (sqlFrom != null) {
                 bbCollection.FilterObject.CustomFilterProperty[

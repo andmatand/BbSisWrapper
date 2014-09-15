@@ -231,7 +231,7 @@ namespace BbSisWrapper {
             string sqlOrderBy = null)
         {
             CEAFacultyRecords bbCollection = new CEAFacultyRecords();
-            bbCollection.Init(context, true);
+            bbCollection.Init(context);
 
             if (sqlFrom != null) {
                 bbCollection.FilterObject.CustomFilterProperty[
