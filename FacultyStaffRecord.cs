@@ -14,6 +14,24 @@ namespace BbSisWrapper {
             this.bbRecord = bbRecord;
         }
 
+        public bool CanBeSaved {
+            get { return bbRecord.CanBeSaved(); }
+        }
+
+        public ReasonRecordCannotBeSaved ReasonRecordCannotBeSaved {
+            get {
+                bbCantSaveReasons bbCantSaveReason = bbCantSaveReasons.csrObjectVersionOutOfDate;
+                string message = null;
+
+                if (!bbRecord.CanBeSaved(ref bbCantSaveReason, ref message)) {
+                    return new ReasonRecordCannotBeSaved(bbCantSaveReason, message);
+                }
+                else {
+                    return null;
+                }
+            }
+        }
+
         public DateTime DateAdded {
             get {
                 return DateTime.Parse((string) bbRecord.Fields[FIELD.EAFACULTY_fld_DATEADDED]);

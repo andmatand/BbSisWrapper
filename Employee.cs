@@ -23,6 +23,26 @@ namespace BbSisWrapper {
             }
         }
 
+        public bool CanBeSaved {
+            get { return bbRecord.CanBeSaved(); }
+        }
+
+        public ReasonRecordCannotBeSaved ReasonRecordCannotBeSaved {
+            get {
+                bbCantSaveReasons bbCantSaveReason = bbCantSaveReasons.csrObjectVersionOutOfDate;
+                string message = null;
+
+                if (!bbRecord.CanBeSaved(ref bbCantSaveReason, ref message)) {
+                    return new ReasonRecordCannotBeSaved(
+                        (Blackbaud.PIA.EA7.BBEEAPI7.bbCantSaveReasons) bbCantSaveReason,
+                        message);
+                }
+                else {
+                    return null;
+                }
+            }
+        }
+
         public DateTime DateAdded {
             get {
                 return DateTime.Parse((string)

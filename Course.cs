@@ -66,6 +66,24 @@ namespace BbSisWrapper {
             return newRestriction;
         }
 
+        public bool CanBeSaved {
+            get { return sisObject.CanBeSaved(); }
+        }
+
+        public ReasonRecordCannotBeSaved ReasonRecordCannotBeSaved {
+            get {
+                bbCantSaveReasons bbCantSaveReason = bbCantSaveReasons.csrObjectVersionOutOfDate;
+                string message = null;
+
+                if (!sisObject.CanBeSaved(ref bbCantSaveReason, ref message)) {
+                    return new ReasonRecordCannotBeSaved(bbCantSaveReason, message);
+                }
+                else {
+                    return null;
+                }
+            }
+        }
+
         public List<Class> Classes {
             get {
                 // Make sure our classes have been loaded
