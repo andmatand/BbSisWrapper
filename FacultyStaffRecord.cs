@@ -6,7 +6,7 @@ using FILTERTYPE = Blackbaud.PIA.EA7.BBEEAPI7.eDataFilterCustomTypes;
 using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEAFACULTYFIELDS;
 
 namespace BbSisWrapper {
-    public class FacultyStaffRecord : IPerson {
+    public class FacultyStaffRecord : IDisposable, IPerson {
         private CEAFacultyRecord bbRecord;
         private AddressCollection addresses;
 
@@ -136,6 +136,11 @@ namespace BbSisWrapper {
         }
 
         public static FacultyStaffRecord
+        LoadByEA7FacultyId(int ea7FacultyId, Context context) {
+            return LoadByEA7FacultyId(ea7FacultyId, context.BbSisContext);
+        }
+
+        private static FacultyStaffRecord
         LoadByEA7FacultyId(int ea7FacultyId, IBBSessionContext context) {
             var record = new CEAFacultyRecord();
             record.Init(context);
@@ -144,6 +149,11 @@ namespace BbSisWrapper {
         }
 
         public static FacultyStaffRecord
+        LoadByEA7RecordsId(int ea7RecordsId, Context context) {
+            return LoadByEA7RecordsId(ea7RecordsId, context.BbSisContext);
+        }
+
+        private static FacultyStaffRecord
         LoadByEA7RecordsId(int ea7RecordsId, IBBSessionContext context) {
             var records = new CEAFacultyRecords();
             records.Init(context);
@@ -178,6 +188,11 @@ namespace BbSisWrapper {
         }
 
         public static FacultyStaffRecord
+        LoadByUserDefinedId(string ncid, Context context) {
+            return LoadByUserDefinedId(ncid, context.BbSisContext);
+        }
+
+        private static FacultyStaffRecord
         LoadByUserDefinedId(string ncid, IBBSessionContext context) {
             ncid = ncid.Replace("'", "''").Trim();
 
@@ -223,7 +238,7 @@ namespace BbSisWrapper {
             return LoadCollection(context.BbSisContext, sqlFrom, sqlWhere, sqlOrderBy);
         }
 
-        internal static IEnumerable<FacultyStaffRecord>
+        private static IEnumerable<FacultyStaffRecord>
         LoadCollection(
             IBBSessionContext context,
             string sqlFrom = null,
@@ -253,6 +268,10 @@ namespace BbSisWrapper {
             bbCollection.CloseDown();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(bbCollection);
             bbCollection = null;
+        }
+
+        public void Dispose() {
+            Close();
         }
     }
 }
