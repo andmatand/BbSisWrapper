@@ -53,12 +53,22 @@ namespace BbSisWrapper {
             return record;
         }
 
-        public static AcademicYear LoadById(int ea7AcademicYearsId, IBBSessionContext context) {
+        public static AcademicYear LoadById(int ea7AcademicYearsId, Context context) {
+            return LoadById(ea7AcademicYearsId, context.BbSisContext);
+        }
+
+        private static AcademicYear LoadById(int ea7AcademicYearsId, IBBSessionContext context) {
             var record = LoadSisRecord(ea7AcademicYearsId, context);
             return new AcademicYear(record);
         }
 
-        public static AcademicYear LoadBySchoolAndDescription(int schoolId, string description, IBBSessionContext context) {
+        public static AcademicYear
+        LoadBySchoolAndDescription(int schoolId, string description, Context context) {
+            return LoadBySchoolAndDescription(schoolId, description, context.BbSisContext);
+        }
+
+        private static AcademicYear
+        LoadBySchoolAndDescription(int schoolId, string description, IBBSessionContext context) {
             var academicYears = new cEAAcademicYears();
             academicYears.Init(context);
             academicYears.FilterObject.CustomFilterProperty[eDataFilterCustomTypes.CUSTOMFILTERTYPE_CUSTOMWHERE] =

@@ -394,12 +394,20 @@ namespace BbSisWrapper {
             return record;
         }
 
-        public static Student LoadByEa7StudentsId(int ea7StudentsId, IBBSessionContext context) {
+        public static Student LoadByEa7StudentsId(int ea7StudentsId, Context context) {
+            return LoadByEa7StudentsId(ea7StudentsId, context.BbSisContext);
+        }
+
+        internal static Student LoadByEa7StudentsId(int ea7StudentsId, IBBSessionContext context) {
             var sisRecord = LoadSisRecord(ea7StudentsId, context);
             return new Student(sisRecord, context);
         }
 
-        public static Student LoadByEa7RecordsId(int ea7RecordsId, IBBSessionContext context) {
+        public static Student LoadByEa7RecordsId(int ea7RecordsId, Context context) {
+            return LoadByEa7RecordsId(ea7RecordsId, context.BbSisContext);
+        }
+
+        private static Student LoadByEa7RecordsId(int ea7RecordsId, IBBSessionContext context) {
             var records = new cEAStudents();
             records.Init(context);
             records.FilterObject.CustomFilterProperty[FILTERTYPE.CUSTOMFILTERTYPE_CUSTOMFROM] =
@@ -442,7 +450,7 @@ namespace BbSisWrapper {
             return LoadCollection(context.BbSisContext, sqlFrom, sqlWhere, sqlOrderBy);
         }
 
-        internal static IEnumerable<Student>
+        private static IEnumerable<Student>
         LoadCollection(
             IBBSessionContext context,
             string sqlFrom = null,
@@ -475,6 +483,11 @@ namespace BbSisWrapper {
         }
 
         public static Student
+        LoadByUserDefinedId(string userDefinedId, Context context) {
+            return LoadByUserDefinedId(userDefinedId, context.BbSisContext);
+        }
+
+        private static Student
         LoadByUserDefinedId(string userDefinedId, IBBSessionContext context) {
             userDefinedId = userDefinedId.Replace("'", "''").Trim();
 
