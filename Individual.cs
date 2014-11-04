@@ -10,7 +10,12 @@ namespace BbSisWrapper {
         private IBBSessionContext context;
         private AddressCollection addresses;
 
-        public Individual(CEAIndividualRecord bbRecord, IBBSessionContext context) {
+        public Individual(CEAIndividualRecord bbRecord, Context context) {
+            this.bbRecord = bbRecord;
+            this.context = context.BbSisContext;
+        }
+
+        private Individual(CEAIndividualRecord bbRecord, IBBSessionContext context) {
             this.bbRecord = bbRecord;
             this.context = context;
         }
@@ -169,8 +174,8 @@ namespace BbSisWrapper {
             bbRecord.Save();
         }
 
-        private static CEAIndividualRecord LoadBbRecord(int ea7IndividualsID,
-                                                        IBBSessionContext context) {
+        private static CEAIndividualRecord
+        LoadBbRecord(int ea7IndividualsID, IBBSessionContext context) {
             var record = new CEAIndividualRecord();
             record.Init(context);
             record.Load(ea7IndividualsID);
@@ -178,9 +183,8 @@ namespace BbSisWrapper {
             return record;
         }
 
-        public static Individual LoadByEa7IndividualsId(int ea7IndividualsID,
-                                                        IBBSessionContext context) {
-            var bbRecord = LoadBbRecord(ea7IndividualsID, context);
+        public static Individual LoadByEa7IndividualsId(int ea7IndividualsID, Context context) {
+            var bbRecord = LoadBbRecord(ea7IndividualsID, context.BbSisContext);
             return new Individual(bbRecord, context);
         }
 
@@ -226,10 +230,9 @@ namespace BbSisWrapper {
             bbCollection = null;
         }
 
-
-        public static Individual Create(IBBSessionContext context) {
+        public static Individual Create(Context context) {
             CEAIndividualRecord bbRecord = new CEAIndividualRecord();
-            bbRecord.Init(context);
+            bbRecord.Init(context.BbSisContext);
 
             return new Individual(bbRecord, context);
         }

@@ -21,7 +21,12 @@ namespace BbSisWrapper {
         private List<StudentSession> studentSessions = null;
         private RelationshipCollection relationships = null;
 
-        public Student(cEAStudent bbRecord, IBBSessionContext context) {
+        public Student(cEAStudent bbRecord, Context context) {
+            this.bbRecord = bbRecord;
+            this.context = context.BbSisContext;
+        }
+
+        private Student(cEAStudent bbRecord, IBBSessionContext context) {
             this.bbRecord = bbRecord;
             this.context = context;
         }
