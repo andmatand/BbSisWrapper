@@ -83,6 +83,8 @@
     <Compile Include="IRelationship.cs" />
     <Compile Include="ITopLevelObject.cs" />
     <Compile Include="Note.cs" />
+    <Compile Include="PerformanceRecord.cs" />
+    <Compile Include="PerformanceRecordCollection.cs" />
     <Compile Include="PersonalRelationship.cs" />
     <Compile Include="ProgressionEntry.cs" />
     <Compile Include="ProgressionEntryCollection.cs" />

@@ -3,14 +3,14 @@
 namespace BbSisWrapper {
     public partial class Student {
         public partial class StudentSession {
-            public class Gpa {
-                private CEAGradeGPA bbObject;
+            public class PerformanceRecord {
+                private CEAGradePerformance bbObject;
 
-                public Gpa(CEAGradeGPA bbSisObject) {
+                public PerformanceRecord(CEAGradePerformance bbSisObject) {
                     bbObject = bbSisObject;
                 }
 
-                public CEAGradeGPA BbSisObject {
+                public CEAGradePerformance BbSisObject {
                     get {
                         return bbObject;
                     }

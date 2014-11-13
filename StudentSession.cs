@@ -8,6 +8,7 @@ namespace BbSisWrapper {
         public partial class StudentSession : IDisposable {
             private CEAStudentSession bbObject;
             private GpaCollection gpas;
+            private PerformanceRecordCollection performanceRecords;
 
             public StudentSession(CEAStudentSession bbSisObject) {
                 bbObject = bbSisObject;
@@ -58,6 +59,17 @@ namespace BbSisWrapper {
             public StudentSession LoadById(int ea7StudentSessionsId, IBBSessionContext context) {
                 var record = LoadSisRecord(ea7StudentSessionsId, context);
                 return new StudentSession(record);
+            }
+
+            public PerformanceRecordCollection PerformanceRecords {
+                get {
+                    // If we haven't loaded our performance records yet
+                    if (performanceRecords == null) {
+                        performanceRecords = new PerformanceRecordCollection(bbObject.Performances);
+                    }
+
+                    return performanceRecords;
+                }
             }
 
             public GpaCollection Gpas {

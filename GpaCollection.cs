@@ -1,9 +1,6 @@
-﻿using Blackbaud.PIA.EA7.BBEEAPI7;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Blackbaud.PIA.EA7.BBEEAPI7;
 
 namespace BbSisWrapper {
     public class GpaCollection : ICollection<Student.StudentSession.Gpa> {
