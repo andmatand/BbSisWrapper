@@ -1,7 +1,8 @@
-﻿using Blackbaud.PIA.FE7.BBAFNAPI7;
+﻿using System;
+using Blackbaud.PIA.FE7.BBAFNAPI7;
 
 namespace BbSisWrapper {
-    public class CodeTable {
+    public class CodeTable : IDisposable {
         private CCodeTable bbObject;
         private CCodeTablesServer codeTableServer;
         private CodeTableEntryCollection entries;
@@ -22,6 +23,11 @@ namespace BbSisWrapper {
 
                 return entries;
             }
+        }
+
+        public void Close() {
+            bbObject.CloseDown();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(bbObject);
         }
 
         public int CodeTablesId {
@@ -72,6 +78,10 @@ namespace BbSisWrapper {
             else {
                 return null;
             }
+        }
+
+        public void Dispose() {
+            Close();
         }
     }
 }

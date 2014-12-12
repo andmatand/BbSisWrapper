@@ -40,14 +40,14 @@ namespace BbSisWrapper {
             //public void Delete() {
             //    // This strange metafield hack is from BB support.  Apparently I found a bug in the
             //    // API: there is no (normal) way of accessing a student's degrees.
-            //    IBBMetaField metaField = (IBBMetaField) student.SisObject;
+            //    IBBMetaField metaField = (IBBMetaField) student.BbSisObject;
 
             //    cEAStudentDegrees studentDegrees;
             //    studentDegrees = metaField.ChildObject[
             //        (int) EEAStudentChildren.EASTUDENTS_child_DEGREES];
 
-            //    studentDegrees.Remove(SisObject);
-            //    SisObject = null;
+            //    studentDegrees.Remove(BbSisObject);
+            //    BbSisObject = null;
 
             //    // Remove the degree from the student's list of degrees
             //    student.DeleteDegree(this);

@@ -8,7 +8,7 @@ namespace BbSisWrapper {
             this.bbRecord = bbRecord;
         }
 
-        public IBBAttribute SisObject {
+        public IBBAttribute BbSisObject {
             get {
                 return bbRecord;
             }

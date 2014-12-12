@@ -36,7 +36,7 @@ namespace BbSisWrapper {
         public CodeTableServer CodeTableServer {
             get {
                 if (codeTableServer == null) {
-                    codeTableServer = new CodeTableServer((IBBSessionContext) Context);
+                    codeTableServer = new CodeTableServer((IBBSessionContext) BbSisContext);
                 }
 
                 return codeTableServer;

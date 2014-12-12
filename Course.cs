@@ -243,7 +243,7 @@ namespace BbSisWrapper {
         //public Class AddClass(int sessionId, int startTermId) {
         //    // If we have a restriction (in Restrictions 2 tab) for this session
         //    //bool sessionIsAvailable = false;
-        //    //foreach (CEACourseRestriction cr in this.SisObject.Restrictions) {
+        //    //foreach (CEACourseRestriction cr in this.BbSisObject.Restrictions) {
         //    //    if (cr.Fields[EEACOURSERESTRICTIONSFields.EACOURSERESTRICTIONS_fld_EA7SESSIONSID] == sessionId.ToString()) {
         //    //        sessionIsAvailable = true;
         //    //        break;

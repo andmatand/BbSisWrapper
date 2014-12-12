@@ -35,6 +35,22 @@ namespace BbSisWrapper {
                 }
             }
 
+            public int AdvisorId {
+                get {
+                    return int.Parse((string)
+                        sisObject.Fields[FIELDS.EAPROMOTIONSUMMARIES_fld_ADVISORID]);
+                }
+                set {
+                    sisObject.Fields[FIELDS.EAPROMOTIONSUMMARIES_fld_ADVISORID] = value;
+                }
+            }
+
+            public string AdvisorName {
+                get {
+                    return (string) sisObject.Fields[FIELDS.EAPROMOTIONSUMMARIES_fld_ADVISORNAME];
+                }
+            }
+
             public string GradeLevel {
                 get {
                     return (string) sisObject.Fields[FIELDS.EAPROMOTIONSUMMARIES_fld_GRADELEVEL];

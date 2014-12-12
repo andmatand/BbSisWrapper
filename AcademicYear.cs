@@ -33,19 +33,21 @@ namespace BbSisWrapper {
 
         public int Ea7AcademicYearsId {
             get {
-                int id;
-                int.TryParse((string) bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_EA7ACADEMICYEARSID], out id);
-                return id;
+                return int.Parse((string) 
+                    bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_EA7ACADEMICYEARSID]);
             }
         }
 
         public DateTime StartDate {
             get {
-                return DateTime.Parse((string) bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_STARTDATE]);
+                return DateTime.Parse((string)
+                    bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_STARTDATE]);
             }
         }
 
-        private static CEAAcademicYear LoadSisRecord(int ea7AcademicYearsId, IBBSessionContext context) {
+        private static CEAAcademicYear
+        LoadSisRecord(int ea7AcademicYearsId, IBBSessionContext context)
+        {
             var record = new CEAAcademicYear();
             record.Init(context);
             record.Load(ea7AcademicYearsId);

@@ -1,12 +1,13 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using Blackbaud.PIA.FE7.BBAFNAPI7;
 
 namespace BbSisWrapper {
-    public class CodeTableEntryCollection : Collection<CodeTableEntry> {
+    public class CodeTableEntryCollection : ICollection<CodeTableEntry> {
         private int codeTableId;
         private CCodeTablesServer server;
         private IBBSessionContext context;
+        private List<CodeTableEntry> wrapperCollection;
 
         internal CodeTableEntryCollection(int codeTablesId, CCodeTablesServer codeTableServer,
                                           IBBSessionContext context) {
@@ -18,45 +19,24 @@ namespace BbSisWrapper {
             dynamic[,] tableData = (dynamic[,])
                 server.CodeTableGetDataArray((ECodeTableNumbers) codeTableId, false, false);
 
+            wrapperCollection = new List<CodeTableEntry>();
+
+            // Wrap each entry in a CodeTableEntry object
             for (int i = 0; i < entryCount; i++) {
                 int entryId = (int) tableData[0, i];
-                Items.Add(CodeTableEntry.LoadByTableEntriesId(entryId, server, codeTablesId));
+                wrapperCollection.Add(
+                    CodeTableEntry.LoadByTableEntriesId(entryId, server, codeTablesId));
             }
-
-            //for (int i = 0; i < entryCount; i++) {
-            //    int id = (int) tableData[0][i];
-            //    string description = tableData[1][i];
-
-            //    bool isActive = server.GetTableEntryActiveStatus(description,
-            //                                                     (ECodeTableNumbers) codeTableId);
-
-            //    string shortDescription = null;
-
-            //    // If this table has short descriptions
-            //    if (HasShortDescriptions) {
-            //        shortDescription = tableData[2][i];
-
-            //        if (string.IsNullOrWhiteSpace(shortDescription)) {
-            //            shortDescription = null;
-            //        }
-
-            //        Items.Add(new CodeTableEntryShort(id, description, shortDescription,
-            //                                          isActive));
-            //    }
-            //    else {
-            //        Items.Add(new CodeTableEntry(id, description, isActive));
-            //    }
-            //}
         }
 
         public CodeTableEntry Add(string description, bool isActive = true) {
             if (HasShortDescriptions) {
-                throw new Exception("This CodeTable does not have short descriptions.  Use the " +
-                                    "other Add() method.");
+                throw new Exception("This CodeTable has short descriptions.  Use the other " +
+                                    "Add() method.");
             }
 
             CodeTableEntry newItem = AddEntry(null, description, isActive);
-            Items.Add(newItem);
+            wrapperCollection.Add(newItem);
 
             return newItem;
         }
@@ -69,13 +49,13 @@ namespace BbSisWrapper {
             }
 
             CodeTableEntry newItem = AddEntry(shortDescription, longDescription, isActive);
-            Items.Add(newItem);
+            wrapperCollection.Add(newItem);
 
             return newItem;
         }
 
 
-        protected CodeTableEntry
+        private CodeTableEntry
         AddEntry(string shortDescription, string description, bool isActive) {
             var tableLookupHandler = new CTableLookupHandler();
             tableLookupHandler.Init(context);
@@ -102,6 +82,42 @@ namespace BbSisWrapper {
             get {
                 return server.TableHasShortDescription((ECodeTableNumbers) codeTableId);
             }
+        }
+
+        public void Add(CodeTableEntry item) {
+            throw new NotSupportedException();
+        }
+
+        public void Clear() {
+            throw new NotImplementedException();
+        }
+
+        public bool Contains(CodeTableEntry item) {
+            throw new NotSupportedException();
+        }
+
+        public void CopyTo(CodeTableEntry[] array, int arrayIndex) {
+            throw new NotImplementedException();
+        }
+
+        public int Count {
+            get { return wrapperCollection.Count; }
+        }
+
+        public bool IsReadOnly {
+            get { throw new NotImplementedException(); }
+        }
+
+        public bool Remove(CodeTableEntry item) {
+            throw new NotImplementedException();
+        }
+
+        public IEnumerator<CodeTableEntry> GetEnumerator() {
+            return wrapperCollection.GetEnumerator();
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator() {
+            return wrapperCollection.GetEnumerator();
         }
     }
 }
