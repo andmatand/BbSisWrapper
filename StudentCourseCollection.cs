@@ -42,6 +42,12 @@ namespace BbSisWrapper {
             wrapperCollection.Clear();
         }
 
+        public void Close() {
+            bbCollection.CloseDown();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(bbCollection);
+            bbCollection = null;
+        }
+
         public bool Contains(Student.StudentCourse item) {
             return wrapperCollection.Contains(item);
         }
@@ -79,9 +85,7 @@ namespace BbSisWrapper {
         }
 
         public void Dispose() {
-            bbCollection.CloseDown();
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(bbCollection);
-            bbCollection = null;
+            Close();
         }
     }
 }

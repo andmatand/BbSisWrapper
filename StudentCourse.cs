@@ -36,6 +36,12 @@ namespace BbSisWrapper {
                 sisObject.CloseDown();
             }
 
+            public string ClassSection {
+                get {
+                    return (string) sisObject.Fields[FIELD.EASTUDENTCOURSES_fld_CLASSSECTION];
+                }
+            }
+
             public Course Course {
                 get {
                     return Course.LoadByEA7CoursesId(Ea7CoursesId, context);
@@ -44,9 +50,8 @@ namespace BbSisWrapper {
 
             public int Ea7CoursesId {
                 get {
-                    int id;
-                    int.TryParse((string) sisObject.Fields[EEASTUDENTCOURSESFields.EASTUDENTCOURSES_fld_EA7COURSESID], out id);
-                    return id;
+                    return int.Parse((string)
+                        sisObject.Fields[FIELD.EASTUDENTCOURSES_fld_EA7COURSESID]);
                 }
             }
 
@@ -77,17 +82,15 @@ namespace BbSisWrapper {
 
             public int SessionId {
                 get {
-                    int id;
-                    int.TryParse((string) sisObject.Fields[EEASTUDENTCOURSESFields.EASTUDENTCOURSES_fld_EA7SESSIONSID], out id);
-                    return id;
+                    return int.Parse((string)
+                        sisObject.Fields[FIELD.EASTUDENTCOURSES_fld_EA7SESSIONSID]);
                 }
             }
 
             public int StartTermId {
                 get {
-                    int id;
-                    int.TryParse((string) sisObject.Fields[EEASTUDENTCOURSESFields.EASTUDENTCOURSES_fld_STARTTERM], out id);
-                    return id;
+                    return int.Parse((string)
+                        sisObject.Fields[FIELD.EASTUDENTCOURSES_fld_STARTTERM]);
                 }
             }
 
