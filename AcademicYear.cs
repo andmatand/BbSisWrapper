@@ -5,6 +5,7 @@ using FIELDS = Blackbaud.PIA.EA7.BBEEAPI7.EEAACADEMICYEARSFields;
 namespace BbSisWrapper {
     public class AcademicYear : IDisposable {
         private CEAAcademicYear bbObject;
+        private SessionCollection sessions;
 
         public AcademicYear(CEAAcademicYear bbSisObject) {
             this.bbObject = bbSisObject;
@@ -35,6 +36,16 @@ namespace BbSisWrapper {
             get {
                 return int.Parse((string) 
                     bbObject.Fields[FIELDS.EAACADEMICYEARS_fld_EA7ACADEMICYEARSID]);
+            }
+        }
+
+        public SessionCollection Sessions {
+            get {
+                if (sessions == null) {
+                    sessions = new SessionCollection(bbObject.Sessions);
+                }
+
+                return sessions;
             }
         }
 

@@ -1,11 +1,10 @@
-﻿using Blackbaud.PIA.EA7.BBEEAPI7;
-using System;
-using System.Linq;
+﻿using System;
 using System.Collections.Generic;
+using Blackbaud.PIA.EA7.BBEEAPI7;
+using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEASTUDENTSFields;
+using FILTERTYPE = Blackbaud.PIA.EA7.BBEEAPI7.eDataFilterCustomTypes;
 using IBBAddressHeaders = Blackbaud.PIA.FE7.AFNInterfaces.IBBAddressHeaders;
 using IBBAttributesAPI = Blackbaud.PIA.FE7.AFNInterfaces.IBBAttributesAPI;
-using FILTERTYPE = Blackbaud.PIA.EA7.BBEEAPI7.eDataFilterCustomTypes;
-using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEASTUDENTSFields;
 
 namespace BbSisWrapper {
     public partial class Student : IPerson, IDisposable {

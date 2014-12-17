@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 
 namespace BbSisWrapper {
-    public class Course : ITopLevelObject {
+    public class Course : ITopLevelObject, IDisposable {
         private CEACourse sisObject;
         private IBBSessionContext context;
         private List<AllowedGradeLevel> allowedGradeLevels = null;
@@ -19,7 +19,7 @@ namespace BbSisWrapper {
         }
 
         ~Course() {
-            this.Close();
+            Close();
         }
 
         public GradingInfo AddGradingInfo() {
@@ -309,10 +309,10 @@ namespace BbSisWrapper {
             int ea7CoursesId = this.Ea7CoursesId;
 
             // Close the SIS record
-            this.Close();
+            Close();
 
             // Load the same record again
-            this.sisObject = LoadSisRecord(ea7CoursesId, context);
+            sisObject = LoadSisRecord(ea7CoursesId, context);
         }
 
         public void Save() {
@@ -326,37 +326,41 @@ namespace BbSisWrapper {
         }
 
         public void Close() {
-            // If we have classes loaded
-            if (this.classes != null) {
-                // Close each of our classes
-                foreach (Class c in this.classes) {
-                    c.Close();
+            if (sisObject != null) {
+                // If we have classes loaded
+                if (classes != null) {
+                    // Close each of our classes
+                    foreach (Class c in this.classes) {
+                        c.Close();
+                    }
+
+                    // Clear our list of classes
+                    classes = null;
                 }
 
-                // Clear our list of classes
-                this.classes = null;
-            }
+                // If we have any allowed grade levels loaded
+                if (allowedGradeLevels != null) {
+                    // Clear our list of allowed grade levels
+                    allowedGradeLevels = null;
+                }
 
-            // If we have any allowed grade levels loaded
-            if (this.allowedGradeLevels != null) {
-                // Clear our list of allowed grade levels
-                this.allowedGradeLevels = null;
-            }
+                // If we have course restrictions loaded
+                if (restrictions != null) {
+                    // Clear our list of restrictions
+                    restrictions = null;
+                }
 
-            // If we have course restrictions loaded
-            if (this.restrictions != null) {
-                // Clear our list of restrictions
-                this.restrictions = null;
-            }
+                // If we have grading infos loaded
+                if (gradingInfos != null) {
+                    // Clear our list of grading infos
+                    gradingInfos = null;
+                }
 
-            // If we have grading infos loaded
-            if (this.gradingInfos != null) {
-                // Clear our list of grading infos
-                this.gradingInfos = null;
+                // Release our handle on the SIS record
+                sisObject.CloseDown();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(sisObject);
+                sisObject = null;
             }
-
-            // Release our handle on the SIS record
-            this.sisObject.CloseDown();
         }
 
         private static CEACourse LoadSisRecord(int ea7CoursesId, IBBSessionContext context) {
@@ -649,6 +653,10 @@ namespace BbSisWrapper {
                     sisObject.Fields[EEACOURSERESTRICTIONSFields.EACOURSERESTRICTIONS_fld_EA7SESSIONSID] = value;
                 }
             }
+        }
+
+        public void Dispose() {
+            Close();
         }
     }
 }

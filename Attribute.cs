@@ -14,6 +14,15 @@ namespace BbSisWrapper {
             }
         }
 
+        public string Comment {
+            get {
+                return (string) bbRecord.Fields[EattributeFields.Attribute_fld_COMMENTS];
+            }
+            set {
+                bbRecord.Fields[EattributeFields.Attribute_fld_COMMENTS] = value;
+            }
+        }
+
         public string Description {
             get {
                 return (string) bbRecord.Fields[EattributeFields.Attribute_fld_VALUE];
