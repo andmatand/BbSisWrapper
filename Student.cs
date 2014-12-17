@@ -233,13 +233,8 @@ namespace BbSisWrapper {
             get {
                 // If we haven't loaded our studentcourses yet
                 if (studentCourses == null) {
-                    cEAStudentCourses bbCollection = new cEAStudentCourses();
-                    bbCollection.Init(context, (IBBDataObject) bbRecord);
-                    bbCollection.FilterObject.FilterProperties[
-                        EEASTUDENTCOURSESFilterProperties.EASTUDENTCOURSES_FilterProp_EA7StudentsID]
-                        = Ea7StudentsId;
-
-                    studentCourses = new StudentCourseCollection(bbCollection, context);
+                    studentCourses = new StudentCourseCollection(
+                        (cEAStudentCourses) bbRecord.StudentCourses, context);
                 }
 
                 return studentCourses;
@@ -330,6 +325,9 @@ namespace BbSisWrapper {
                 foreach (StudentCourse sc in studentCourses) {
                     sc.Close();
                 }
+
+                // Close the collection
+                studentCourses.Close();
 
                 // Clear our list of student courses
                 studentCourses = null;
