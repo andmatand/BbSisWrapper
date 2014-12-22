@@ -35,10 +35,17 @@ namespace BbSisWrapper {
                 }
             }
 
-            public int AdvisorId {
+            public int? AdvisorId {
                 get {
-                    return int.Parse((string)
-                        sisObject.Fields[FIELDS.EAPROMOTIONSUMMARIES_fld_ADVISORID]);
+                    string advisorIdString = (string)
+                        sisObject.Fields[FIELDS.EAPROMOTIONSUMMARIES_fld_ADVISORID];
+
+                    if (advisorIdString != null) {
+                        return int.Parse(advisorIdString);
+                    }
+                    else {
+                        return null;
+                    }
                 }
                 set {
                     sisObject.Fields[FIELDS.EAPROMOTIONSUMMARIES_fld_ADVISORID] = value;
