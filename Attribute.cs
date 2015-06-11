@@ -14,6 +14,13 @@ namespace BbSisWrapper {
             }
         }
 
+        public int Id {
+            get {
+                return int.Parse((string)
+                    bbRecord.Fields[EattributeFields.Attribute_fld_ATTRIBUTESID]);
+            }
+        }
+
         public string Comment {
             get {
                 return (string) bbRecord.Fields[EattributeFields.Attribute_fld_COMMENTS];
