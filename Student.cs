@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Blackbaud.PIA.EA7.BBEEAPI7;
 using FIELD = Blackbaud.PIA.EA7.BBEEAPI7.EEASTUDENTSFields;
 using FILTERTYPE = Blackbaud.PIA.EA7.BBEEAPI7.eDataFilterCustomTypes;
@@ -14,11 +15,12 @@ namespace BbSisWrapper {
         private AttributeCollection attributes = null;
         private StudentDegreeCollection degrees = null;
         private EnrollmentCollection enrollments;
-        private List<Note> notes = null;
+        private NoteCollection notes = null;
         private ProgressionEntryCollection progressionEntries = null;
         private StudentCourseCollection studentCourses = null;
         private List<StudentSession> studentSessions = null;
         private RelationshipCollection relationships = null;
+        private RecordStatusLogEntryCollection statusLog = null;
 
         public Student(cEAStudent bbRecord, Context context) {
             this.bbRecord = bbRecord;
@@ -155,15 +157,13 @@ namespace BbSisWrapper {
             }
         }
 
-        private void LoadNotes() {
-            // If we have not yet loaded our notes
-            if (notes == null) {
-                notes = new List<Note>();
-
-                // Load each note
-                foreach (IBBNotepad notepad in bbRecord.NotePads) {
-                    notes.Add(new Note(notepad));
+        public RecordStatusLogEntryCollection StatusLog {
+            get {
+                if (statusLog == null) {
+                    statusLog = new RecordStatusLogEntryCollection(bbRecord.StatusLogs);
                 }
+
+                return statusLog;
             }
         }
 
@@ -173,10 +173,12 @@ namespace BbSisWrapper {
             }
         }
 
-        public List<Note> Notes {
+        public NoteCollection Notes {
             get {
-                // Make sure our list of notes is loaded
-                LoadNotes();
+                // If we have not yet loaded our notes
+                if (notes == null) {
+                    notes = new NoteCollection(bbRecord.NotePads);
+                }
 
                 return notes;
             }
@@ -232,8 +234,16 @@ namespace BbSisWrapper {
             get {
                 // If we haven't loaded our studentcourses yet
                 if (studentCourses == null) {
-                    studentCourses = new StudentCourseCollection(
-                        (cEAStudentCourses) bbRecord.StudentCourses, context);
+                    cEAStudentCourses bbCollection = new cEAStudentCourses();
+                    bbCollection.Init(context);
+                    bbCollection.FilterObject.FilterProperties[
+                    EEASTUDENTCOURSESFilterProperties.EASTUDENTCOURSES_FilterProp_EA7StudentsID] =
+                        Ea7StudentsId;
+
+                    studentCourses = new StudentCourseCollection(bbCollection, context);
+
+                    //studentCourses = new StudentCourseCollection(
+                    //    (cEAStudentCourses) bbRecord.StudentCourses, context);
                 }
 
                 return studentCourses;
@@ -266,15 +276,18 @@ namespace BbSisWrapper {
             }
         }
 
-        public cEAStudent SisObject {
+        public cEAStudent BbSisObject {
             get {
                 return bbRecord;
             }
         }
 
-        public string Status {
+        public CurrentStatusLogEntry CurrentStatus {
             get {
-                return (string) bbRecord.Fields[FIELD.EASTUDENTS_fld_STATUS];
+                cEARecordStatusLog readOnlyObjectFromStatusLogs = StatusLog.First(
+                    stat => stat.IsCurrent && stat.IsOnActiveEnrollment).BbSisObject;
+
+                return new CurrentStatusLogEntry(bbRecord, readOnlyObjectFromStatusLogs);
             }
         }
 

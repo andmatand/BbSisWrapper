@@ -70,6 +70,7 @@
     <Compile Include="ContactCollection.cs" />
     <Compile Include="Context.cs" />
     <Compile Include="Course.cs" />
+    <Compile Include="CurrentStatus.cs" />
     <Compile Include="Employee.cs" />
     <Compile Include="Enrollment.cs" />
     <Compile Include="EnrollmentCollection.cs" />
@@ -90,6 +91,8 @@
     <Compile Include="ProgressionEntryCollection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReasonRecordCannotBeSaved.cs" />
+    <Compile Include="RecordStatusLogEntry.cs" />
+    <Compile Include="RecordStatusLogEntryCollection.cs" />
     <Compile Include="RelationshipCollection.cs" />
     <Compile Include="Session.cs" />
     <Compile Include="SessionCollection.cs" />
@@ -98,6 +101,7 @@
     <Compile Include="StudentCourseCollection.cs" />
     <Compile Include="StudentDegree.cs" />
     <Compile Include="StudentDegreeCollection.cs" />
+    <Compile Include="NoteCollection.cs" />
     <Compile Include="StudentSession.cs" />
     <Compile Include="Term.cs" />
     <Compile Include="TermCollection.cs" />
