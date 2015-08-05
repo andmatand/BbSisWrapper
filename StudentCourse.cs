@@ -55,6 +55,13 @@ namespace BbSisWrapper {
                 }
             }
 
+            public int Ea7StudentCoursesId {
+                get {
+                    return int.Parse((string)
+                        sisObject.Fields[FIELD.EASTUDENTCOURSES_fld_EA7STUDENTCOURSESID]);
+                }
+            }
+
             public List<Grade> Grades {
                 get {
                     // Make sure we've loaded our grades

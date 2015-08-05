@@ -38,6 +38,12 @@ namespace BbSisWrapper {
             }
         }
 
+        public int Ea7FacultyId {
+            get {
+                return int.Parse((string) bbRecord.Fields[FIELD.EAFACULTY_fld_EA7FACULTYID]);
+            }
+        }
+
         public string FirstName {
             get {
                 return (string) bbRecord.Fields[FIELD.EAFACULTY_fld_FIRSTNAME];
