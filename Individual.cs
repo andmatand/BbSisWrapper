@@ -20,10 +20,6 @@ namespace BbSisWrapper {
             this.context = context;
         }
 
-        ~Individual() {
-            Close();
-        }
-
         public bool CanBeSaved {
             get { return bbRecord.CanBeSaved(); }
         }
@@ -235,6 +231,10 @@ namespace BbSisWrapper {
             bbRecord.Init(context.BbSisContext);
 
             return new Individual(bbRecord, context);
+        }
+
+        public void Dispose() {
+            Close();
         }
     }
 }

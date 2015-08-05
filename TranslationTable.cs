@@ -12,10 +12,6 @@ namespace BbSisWrapper {
             this.sisObject = sisObject;
         }
 
-        ~TranslationTable() {
-            Close();
-        }
-
         public bool CanBeSaved {
             get { return sisObject.CanBeSaved(); }
         }
@@ -107,6 +103,10 @@ namespace BbSisWrapper {
                         sisObject.Fields[EEATRANSLATIONENTRIESFIELDS.EATRANSLATIONENTRIES_fld_GRADE];
                 }
             }
+        }
+
+        public void Dispose() {
+            Close();
         }
     }
 }

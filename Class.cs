@@ -12,10 +12,6 @@ namespace BbSisWrapper {
             this.context = context;
         }
 
-        ~Class() {
-            this.Close();
-        }
-
         public bool CanBeSaved {
             get { return sisObject.CanBeSaved(); }
         }
@@ -216,6 +212,10 @@ namespace BbSisWrapper {
         public static Class LoadByEA7ClassesId(int ea7ClassesId, IBBSessionContext context) {
             var record = LoadSisRecord(ea7ClassesId, context);
             return new Class(record, context);
+        }
+
+        public void Dispose() {
+            Close();
         }
     }
 }

@@ -201,5 +201,9 @@ namespace BbSisWrapper {
         public void Save() {
             bbRecord.Save();
         }
+
+        public void Dispose() {
+            Close();
+        }
     }
 }
